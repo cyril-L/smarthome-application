@@ -12,3 +12,4 @@ target-eclipse/
 wrapper/
 /bin/
 /.DS_Store
+config.private.groovy
