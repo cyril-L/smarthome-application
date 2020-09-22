@@ -1,5 +1,7 @@
 package smarthome.api
 
+import java.text.SimpleDateFormat
+
 import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.codehaus.groovy.grails.web.json.JSONElement
 
@@ -9,6 +11,8 @@ import smarthome.core.SmartHomeException
 import smarthome.core.http.Http
 import smarthome.core.http.transformer.JsonResponseTransformer
 import smarthome.security.User
+
+import java.util.regex.Pattern
 
 /**
  * API DataConnect Enedis
@@ -29,6 +33,14 @@ class DataConnectApi {
 			metric: "https://gw.prd.api.enedis.fr"
 		]
 	]
+
+	private static final SimpleDateFormat DATA_POINT_TIME_FORMAT =
+			new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+	private static final SimpleDateFormat DATA_POINT_DATE_FORMAT =
+			new SimpleDateFormat("yyyy-MM-dd")
+
+	private static final Pattern DURATION_REGEX = ~/^PT(\d+)M$/
 
 	GrailsApplication grailsApplication
 
@@ -114,7 +126,6 @@ class DataConnectApi {
 				.formField("grant_type", GrantTypeEnum.refresh_token.toString())
 				.formField("refresh_token", refreshToken)
 
-
 		JSONElement result = httpRequest.execute(new JsonResponseTransformer("error_description"))?.content
 
 		if (!result) {
@@ -133,19 +144,24 @@ class DataConnectApi {
 	 * Cette sous ressource renvoie les valeurs correspondant à des journées de
 	 * mesure de la courbe de charge de consommation d’un client pour chaque
 	 * jour de la période demandée. Les valeurs retournées sont des puissances
-	 * moyennes de consommation sur des tranches de 30 minutes. Chaque valeur
+	 * moyennes de consommation sur des tranches de 30 minutes.
+	 * 
+	 * 
+	 * Chaque valeur
 	 * est associée à un numéro, la valeur portant le numéro 1 correspond à la
 	 * puissance moyenne mesurée entre minuit et minuit trente le premier jour
 	 * de la période demandée. La valeur portant le numéro le plus élevé
 	 * correspond à la puissance moyenne mesurée entre 23h30 et minuit, la
 	 * veille du dernier jour demandé. Les éventuelles périodes de données
-	 * absentes se manifesteront par un saut dans la numérotation. La courbe de
+	 * absentes se manifesteront par un saut dans la numérotation.
+	 * 
+	 * La courbe de
 	 * charge s’obtient sur des journées complètes de minuit à minuit du jour
 	 * suivant en heures locales. Un appel peut porter au maximum sur 7 jours
 	 * consécutifs. Un appel peut porter sur des données datant au maximum de 24
 	 * mois et 15 jours avant la date d’appel.
 	 * 
-	 * https://datahub-enedis.fr/data-connect/documentation/metering-data/
+	 * https://datahub-enedis.fr/data-connect/documentation/metering-data-v4/
 	 * 
 	 * @param start
 	 * @param end
@@ -155,7 +171,7 @@ class DataConnectApi {
 	 * @throws SmartHomeException
 	 */
 	List<JSONElement> consumption_load_curve(Date start, Date end, String usagePointId, String token) throws SmartHomeException {
-		String url = "${URLS[(grailsApplication.config.enedis.env)].metric}/v3/metering_data/consumption_load_curve"
+		String url = "${URLS[(grailsApplication.config.enedis.env)].metric}/v4/metering_data/consumption_load_curve"
 
 		JSONElement response = Http.Get(url)
 				.queryParam("start", DateUtils.formatDateIso(start))
@@ -165,23 +181,23 @@ class DataConnectApi {
 				.header("Accept", "application/json")
 				.execute(new JsonResponseTransformer("error_description"))?.content
 
-		if (!response || !response.usage_point) {
+		if (!response || !response.meter_reading) {
 			throw new SmartHomeException("consumptionLoadCurve response empty !")
 		}
 
-		List<JSONElement> datapoints = response.usage_point[0].meter_reading.interval_reading
-		Date rankStart = DateUtils.parseDateIso(response.usage_point[0].meter_reading.start)
+		List<JSONElement> datapoints = response.meter_reading.interval_reading
 
 		datapoints.each { datapoint ->
-			// on ramène les puissances moyenne sur 30min à une consommation en Wh
-			datapoint.wh = ((datapoint.value as Double) / 2.0 as Double).round(0)
-
-			use (TimeCategory) {
-				// le rank correspond aux intervalles d'une 1/2H
-				// il faut retrancher 1 minute pour ne pas tomber sur la tranche suivante
-				datapoint.timestamp = rankStart + ((datapoint.rank as Integer) * 30).minutes - 1.minute
-
+			def matcher = datapoint.interval_length =~ DURATION_REGEX
+			if (!matcher.matches()) {
+				throw new SmartHomeException("Interval length not implemented: ${datapoint.interval_length}")
 			}
+			double intervalHours = Integer.parseInt(matcher.group(1)) / 60.0
+			int meanPower = Integer.parseInt(datapoint.value)
+			// FIXME(cyril) was rounded(0) by greg, why ?
+			// round by 2 to avoid values like 484.00000009679997
+			datapoint.wh = (intervalHours * meanPower).round(2)
+			datapoint.timestamp = DATA_POINT_TIME_FORMAT.parse(datapoint.date)
 		}
 
 		return datapoints
@@ -211,7 +227,7 @@ class DataConnectApi {
 	 * @throws SmartHomeException
 	 */
 	List<JSONElement> daily_consumption(Date start, Date end, String usagePointId, String token) throws SmartHomeException {
-		String url = "${URLS[(grailsApplication.config.enedis.env)].metric}/v3/metering_data/daily_consumption"
+		String url = "${URLS[(grailsApplication.config.enedis.env)].metric}/v4/metering_data/daily_consumption"
 
 		JSONElement response = Http.Get(url)
 				.queryParam("start", DateUtils.formatDateIso(start))
@@ -221,18 +237,14 @@ class DataConnectApi {
 				.header("Accept", "application/json")
 				.execute(new JsonResponseTransformer("error_description"))?.content
 
-		if (!response || !response.usage_point) {
+		if (!response || !response.meter_reading) {
 			throw new SmartHomeException("daily_consumption response empty !")
 		}
 
-		List<JSONElement> datapoints = response.usage_point[0].meter_reading.interval_reading
-		Date rankStart = DateUtils.parseDateIso(response.usage_point[0].meter_reading.start)
+		List<JSONElement> datapoints = response.meter_reading.interval_reading
 
 		datapoints.each { datapoint ->
-			use (TimeCategory) {
-				// rank 1 = jour start, rank 2 = jour start + 1, etc.
-				datapoint.timestamp = rankStart + ((datapoint.rank as Integer) - 1).days
-			}
+			datapoint.timestamp = DATA_POINT_DATE_FORMAT.parse(datapoint.date)
 		}
 
 		return datapoints
@@ -264,7 +276,7 @@ class DataConnectApi {
 	 * @throws SmartHomeException
 	 */
 	List<JSONElement> consumption_max_power(Date start, Date end, String usagePointId, String token) throws SmartHomeException {
-		String url = "${URLS[(grailsApplication.config.enedis.env)].metric}/v3/metering_data/consumption_max_power"
+		String url = "${URLS[(grailsApplication.config.enedis.env)].metric}/v4/metering_data/daily_consumption_max_power"
 
 		JSONElement response = Http.Get(url)
 				.queryParam("start", DateUtils.formatDateIso(start))
@@ -274,18 +286,14 @@ class DataConnectApi {
 				.header("Accept", "application/json")
 				.execute(new JsonResponseTransformer("error_description"))?.content
 
-		if (!response || !response.usage_point) {
+		if (!response || !response.meter_reading) {
 			throw new SmartHomeException("daily_consumption response empty !")
 		}
 
-		List<JSONElement> datapoints = response.usage_point[0].meter_reading.interval_reading
-		Date rankStart = DateUtils.parseDateIso(response.usage_point[0].meter_reading.start)
+		List<JSONElement> datapoints = response.meter_reading.interval_reading
 
 		datapoints.each { datapoint ->
-			use (TimeCategory) {
-				// rank 1 = jour start, rank 2 = jour start + 1, etc.
-				datapoint.timestamp = rankStart + ((datapoint.rank as Integer) - 1).days
-			}
+			datapoint.timestamp = DATA_POINT_DATE_FORMAT.parse(datapoint.date)
 		}
 
 		return datapoints

@@ -290,27 +290,23 @@ class DataConnectService extends AbstractService {
 		Date start
 		Date end = new Date().clearTime()// le champ end est exclusif (donnée de la veille)
 
-		use(TimeCategory) {
-			if (notificationAccount.jsonConfig.last_daily_consumption) {
-				// si un appel a déjà été fait, il correspond au jour concerné
-				// donc on doit récupéré les données du jour suivant
-				start = new Date(notificationAccount.jsonConfig.last_daily_consumption as Long)
-				start = (start + 1.day).clearTime()
-
-				// un appel ne peut porter que sur 365 jours
-				if ((end - start).days > 365) {
-					end = start + 365.days
-				}
-			} else {
-				// un appel ne peut porter que sur 365 jours consécutifs
-				start = end - 365.days
+		if (notificationAccount.jsonConfig.last_daily_consumption) {
+			// si un appel a déjà été fait, il correspond au jour concerné
+			// donc on doit récupéré les données du jour suivant
+			start = new Date(notificationAccount.jsonConfig.last_daily_consumption as Long).clearTime()
+			use(TimeCategory) {
+				start = start + 1.day
 			}
-		}
-
-		// l'API n'accepte pas que la date debut = fin
-		// => erreur 400 : start date should be before end date
-		if (start == end) {
-			throw new SmartHomeException("DataConnect#dailyConsumption : start = end !")
+			if (start == end) {
+				// Données de la veille déjà récupérées
+				return []
+			}
+		} else {
+			// un appel ne peut porter que sur 365 jours consécutifs
+			// 2 ans de données pour comparaison année / année
+			use(TimeCategory) {
+				start = end - 24.months
+			}
 		}
 
 		List<JSONElement> datapoints = dataConnectApi.daily_consumption(
@@ -387,27 +383,23 @@ class DataConnectService extends AbstractService {
 		Date start
 		Date end = new Date().clearTime()// le champ end est exclusif (donnée de la veille)
 
-		use(TimeCategory) {
-			if (notificationAccount.jsonConfig.last_consumption_max_power) {
-				// si un appel a déjà été fait, il correspond au jour concerné
-				// donc on doit récupéré les données du jour suivant
-				start = new Date(notificationAccount.jsonConfig.last_consumption_max_power as Long)
-				start = (start + 1.day).clearTime()
-
-				// un appel ne peut porter que sur 365 jours
-				if ((end - start).days > 365) {
-					end = start + 365.days
-				}
-			} else {
-				// un appel ne peut porter que sur 365 jours consécutifs
-				start = end - 365.days
+		if (notificationAccount.jsonConfig.last_consumption_max_power) {
+			// si un appel a déjà été fait, il correspond au jour concerné
+			// donc on doit récupéré les données du jour suivant
+			start = new Date(notificationAccount.jsonConfig.last_consumption_max_power as Long).clearTime()
+			use(TimeCategory) {
+				start = start + 1.day
 			}
-		}
-
-		// l'API n'accepte pas que la date debut = fin
-		// => erreur 400 : start date should be before end date
-		if (start == end) {
-			throw new SmartHomeException("DataConnect#consumptionMaxPower : start = end !")
+			if (start == end) {
+				// Données de la veille déjà récupérées
+				return []
+			}
+		} else {
+			// un appel ne peut porter que sur 365 jours consécutifs
+			// 2 ans de données pour comparaison année / année
+			use(TimeCategory) {
+				start = end - 24.months
+			}
 		}
 
 		List<JSONElement> datapoints = dataConnectApi.consumption_max_power(
