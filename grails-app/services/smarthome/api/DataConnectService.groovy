@@ -19,7 +19,7 @@ import smarthome.automation.NotificationAccount
 import smarthome.automation.NotificationAccountSender
 import smarthome.automation.NotificationAccountSenderService
 import smarthome.automation.NotificationAccountService
-import smarthome.automation.deviceType.TeleInformation
+import smarthome.automation.deviceType.Linky
 import smarthome.core.AbstractService
 import smarthome.core.DateUtils
 import smarthome.core.SmartHomeException
@@ -82,8 +82,9 @@ class DataConnectService extends AbstractService {
 
 		// création du device et association avec le compteur de la maison principale
 		Device dataDevice = this.findOrCreateDevice(notificationAccount)
+		// TODO cyril, why without authorize?
 		deviceService.saveWithoutAuthorize(dataDevice)
-		houseService.bindDefault(user, [compteur: dataDevice])
+		//houseService.bindDefault(user, [compteur: dataDevice])
 
 		return result
 	}
@@ -445,7 +446,7 @@ class DataConnectService extends AbstractService {
 					unite: 'W',
 					mac: notificationAccount.jsonConfig.usage_point_id,
 					label: defaultCompteurLabel,
-					deviceType: DeviceType.findByImplClass(TeleInformation.name))
+					deviceType: DeviceType.findByImplClass(Linky.name))
 		}
 
 		// ajout ou update config device
