@@ -19,7 +19,12 @@ abstract class AbstractChartCommand<T> {
 	 */
 	AbstractChartCommand() {
 		dateChart = new Date().clearTime()
-		viewMode = ChartViewEnum.day
+		// Use yesterday’s date by default, gives more sense for Linky which updates date for a whole day
+		// TODO Cyril: find a Linky specific place to do this
+		use(TimeCategory) {
+			dateChart = dateChart - 1.day
+		}
+		viewMode = ChartViewEnum.month
 	}
 
 
@@ -142,18 +147,6 @@ abstract class AbstractChartCommand<T> {
 		clone.dateDebutUser = this.dateDebutUser
 		return clone
 	}
-
-
-	/**
-	 * Possibibilité de comparer avec l'année précédente
-	 * Vrai si option activée et si aggrégation mois ou année
-	 * 
-	 * @return
-	 */
-	boolean canCompareLastYear() {
-		return comparePreviousYear && viewMode != ChartViewEnum.day
-	}
-
 
 	/**
 	 * Retourne l'année précédente

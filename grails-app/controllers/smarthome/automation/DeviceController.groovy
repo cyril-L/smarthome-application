@@ -210,6 +210,9 @@ class DeviceController extends AbstractController {
 		def user = authenticatedUser
 		deviceService.assertSharedAccess(command.device, user)
 
+        // FIXME cyril overrides compare with previous year for simpler UX
+		command.comparePreviousYear = (command.viewMode == ChartViewEnum.year)
+
 		GoogleChart chart = deviceValueService.createChart(command)
 		GoogleChart compareChart
 
