@@ -1,13 +1,19 @@
-<div class="footer">
-	<h6 class="h6">
-	<g:meta name="app.code"/> v<g:meta name="app.version"/>
-	<br/>
-	Facebook <a href="https://www.facebook.com/bemyhomesmart/">@bemyhomesmart</a> - Twitter <a href="https://twitter.com/gelleouet">@gelleouet</a> - Mail <a href="mailto:contact@jdevops.com" style="text-decoration:none;">contact@jdevops.com</a>
-	<br/>
-	build with Grails <g:meta name="app.grails.version"/> - Atlassian AUI <g:meta name="aui.version"/> - Java ${System.getProperty('java.version')}
-	</h6>
-	
-	<div class="desktop-only">
-		<asset:image src="/gandi-ssl.png" />
-	</div>
+<div id="footer">
+	<table class="footer-body" style="text-align: center; width: 100%;" />
+		<tr>
+			<td><h6 class="h6">Contact</h6></td>
+			<td><h6 class="h6">datachallenge@consometers.org</h6></td>
+			<td><h6 class="h6">TODO groupe facebook</h6></td>
+		</tr>
+		<tr>
+			<td><h6 class="h6">Proposé par</h6></td>
+			<td><h6 class="h6">Avec le soutien de</h6></td>
+		</tr>
+		<tr>
+		    <!-- TODO use images in assets -->
+			<td><img src="https://www.federation-flame.org/wp-content/uploads/2013/09/Aloen-noir.jpg" style="width: 80px;"/>
+			</td>
+			<td><img src="https://upload.wikimedia.org/wikipedia/fr/8/83/R%C3%A9gion-bretagne-logo.svg" style="width: 80px;"/></td>
+		</tr>
+	</table>
 </div>
