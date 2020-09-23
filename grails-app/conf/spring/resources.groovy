@@ -31,16 +31,16 @@ beans = {
 	smarthomeScheduler(SmarthomeScheduler) {
 		jobs = [
 			// monitoring des devices toutes les minutes
-			'smarthome.automation.scheduler.DeviceAlertMonitoringCronMainJob' : "0 * * * * ?",
+			//'smarthome.automation.scheduler.DeviceAlertMonitoringCronMainJob' : "0 * * * * ?",
 			// les providers de datasource associés à un cron. Le gestionnaire est
 			// exécuté toutes les minutes pour tester les expression CRON
 			'smarthome.automation.scheduler.DataSourceProviderCronMainJob' : "0 * * * * ?",
 			// déclenchement des events planifiés toutes les minutes
-			'smarthome.automation.scheduler.EventCronMainJob' : "0 * * * * ?",
+			//'smarthome.automation.scheduler.EventCronMainJob' : "0 * * * * ?",
 			// calcul des consos maison tous les soirs juste avant minuit
-			'smarthome.automation.scheduler.HouseConsoCronMainJob' : "59 59 23 * * ?",
+			//'smarthome.automation.scheduler.HouseConsoCronMainJob' : "59 59 23 * * ?",
 			// calcul des prévisions météo tous les soirs juste après minuit
-			'smarthome.automation.scheduler.HouseWeatherCronMainJob' : "0 1 0 * * ?"
+			//'smarthome.automation.scheduler.HouseWeatherCronMainJob' : "0 1 0 * * ?"
 		]
 	}
 
