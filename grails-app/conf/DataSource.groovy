@@ -14,7 +14,8 @@ environments {
 	development {
 		dataSource {
 			driverClassName = "org.postgresql.Driver"
-			dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+			dbCreate = ""
+			//dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
 			url = "jdbc:postgresql://localhost:5432/smarthome"
 			username = "postgres"
 			password = "${System.properties['smarthome.datasource.password']}"
