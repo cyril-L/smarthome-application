@@ -40,13 +40,16 @@ abstract class AbstractChartCommand<T> {
 			Date date = dateChart.clearTime()
 
 			switch (viewMode) {
-				case ChartViewEnum.year: return DateUtils.firstDayInYear(date)
-				case ChartViewEnum.month: return DateUtils.firstDayInMonth(date)
+				case ChartViewEnum.year:
+					use(TimeCategory) { date = date - 1.year }
+					return date
+				case ChartViewEnum.month:
+					use(TimeCategory) { date = date - 1.month }
+					return date
 				default: return date
 			}
 		}
 	}
-
 
 	/**
 	 * Date fin en fonction view mode
@@ -55,15 +58,6 @@ abstract class AbstractChartCommand<T> {
 	 */
 	Date dateFin() {
 		Date date = dateChart.clearTime()
-
-		switch (viewMode) {
-			case ChartViewEnum.year:
-				date = DateUtils.lastDayInYear(date)
-				break
-			case ChartViewEnum.month:
-				date = DateUtils.lastDayInMonth(date)
-				break
-		}
 
 		use(TimeCategory) {
 			date = date + 23.hours + 59.minutes + 59.seconds
