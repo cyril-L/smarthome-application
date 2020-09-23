@@ -17,7 +17,7 @@
 	          selectionMode: 'multiple',
 	          seriesType: 'steppedArea',
 	          vAxes: {
-	          	0: {title: 'Énergie consommée (kWh)'}
+	          	0: {title: 'Énergie consommée (Wh)'}
 	          },
 		      chartArea: {
 		      	width: '90%'
@@ -28,7 +28,6 @@
 				actions: ['dragToZoom', 'rightClickToReset']
 			  },
 			  hAxis: {
-			  	title: '${ chart.hAxisTitle(command) }',
 			  	gridlines: { color: 'none' },
 	          	slantedText: true,
 	          	format: '${ chart.format(command) }',
@@ -69,11 +68,9 @@
 		          },
 		          'seriesType': 'bars',
 		          hAxis: {
-		          	title: '${ chart.hAxisTitle(command) }',
 				  	gridlines: { color: 'none' },
 		          	slantedText: true,
-		          	format: '${ chart.format(command) }',
-		          	ticks: [${ chart.ticks(command) }]
+		          	format: '${ chart.format(command) }'
 			      },
 		  	};
 	  	</g:if>
@@ -101,12 +98,13 @@
 				  		}
 				  	},
 				  },
+				  vAxes: {
+		          	0: {title: 'Énergie consommée (kWh)'}
+		          },
 				  hAxis: {
-				  	title: '${ chart.hAxisTitle(command) }',
 				  	gridlines: { color: 'none' },
 		          	slantedText: true,
-		          	format: '${ chart.format(command) }',
-		          	ticks: [${ chart.ticks(command) }]
+		          	format: '${ chart.format(command) }'
 			      },
 		  	};
 	  	</g:else>

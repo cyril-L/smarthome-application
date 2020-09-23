@@ -20,11 +20,7 @@
 	<table class="aui app-datatable" style="margin-top:20px;" data-client-pagination="true">
 		<thead>
 			<tr>
-				<th></th>
-				<th colspan="2" style="text-align:center">TOTAL</th>
-			</tr>
-			<tr>
-				<th></th>
+				<th>Période</th>
 				<th style="text-align:center">Consommation</th>
 			</tr>
 		</thead>
@@ -43,10 +39,15 @@
 						</g:else>	
 					</td>
 				<td style="text-align:center; font-weight:bold;"><span class="link">
-					<g:set var="wh" value="${data.value.find{ it.name == "basesum" }?.value}"/>
-					<g:if test="wh">
+					<g:set var="wh" value="${data.value.find{ it.name?.startsWith("base") }?.value}"/>
+					<g:if test="${wh}">
 						<g:set var="totalWh" value="${totalWh + wh}"/>
-						${ (wh / 1000).round(2) } kWh
+						<g:if test="${command.viewMode == ChartViewEnum.day}">
+							<g:formatNumber number="${wh}" maxFractionDigits="1"/>  Wh
+						</g:if>
+						<g:else>
+							<g:formatNumber number="${wh / 1000}" maxFractionDigits="1"/>  kWh
+						</g:else>
 					</g:if>
 				</span></td>
 				</tr>
