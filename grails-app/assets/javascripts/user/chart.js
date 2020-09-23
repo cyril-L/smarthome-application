@@ -21,7 +21,7 @@ $(window).on('load', function() {
 
 
 function onLoadGoogleChart() {
-	google.load("visualization", "1.0", {packages:["corechart","gauge"]});
+	google.load("visualization", "1.0", {packages:["corechart","gauge"], 'language': 'fr'});
 	google.setOnLoadCallback(buildGoogleCharts);
 }
 
