@@ -1,4 +1,5 @@
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler
+import org.springframework.web.servlet.i18n.SessionLocaleResolver
 import org.activiti.spring.SpringProcessEngineConfiguration
 import org.activiti.spring.ProcessEngineFactoryBean
 import org.activiti.engine.impl.history.HistoryLevel
@@ -95,5 +96,9 @@ beans = {
 
 	dataConnectApi(smarthome.api.DataConnectApi) {
 		grailsApplication = ref('grailsApplication')
+	}
+
+	localeResolver(SessionLocaleResolver) {
+		defaultLocale= new java.util.Locale('fr');
 	}
 }
