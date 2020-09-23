@@ -16,12 +16,8 @@
 	          legend: {position: 'top'},
 	          selectionMode: 'multiple',
 	          seriesType: 'steppedArea',
-	          series: {
-	          	${chart.colonnes.size()-2}: {targetAxisIndex: 1, type: 'line', pointsVisible: false},
-	          },
 	          vAxes: {
-	          	0: {title: 'Consommation (Wh)'},
-	          	1: {title: 'Puissance (W)'}
+	          	0: {title: 'Énergie consommée (kWh)'}
 	          },
 		      chartArea: {
 		      	width: '90%'
@@ -68,12 +64,8 @@
 			      	width: '90%'
 			      },
 			      selectionMode: 'multiple',
-			      'series': {
-		          	${chart.colonnes.size()-2}: {targetAxisIndex: 1, type: 'line'},
-		          },
 		          vAxes: {
-		          	0: {title: 'Consommation (kWh)'},
-		          	1: {title: 'Puissance (W)'}
+		          	0: {title: 'Énergie consommée (kWh)'}
 		          },
 		          'seriesType': 'bars',
 		          hAxis: {
