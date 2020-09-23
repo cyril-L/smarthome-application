@@ -804,3 +804,39 @@ tr.planning-day-row td {
   	left: 50%;
   	transform: translate(-50%, -50%);
 }
+
+/* set footer at the page bottom */
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+	justify-content: space-between
+}
+
+#footer .footer-body {
+	background-image: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+#footer {
+	background: white;
+	margin-top: 20px;
+	border-top: 1px solid #dfe1e6;
+}
+
+#footer td, #footer th {
+	vertical-align: top;
+	text-align: left;
+}
+
+#footer th {
+	padding-bottom: 10px;
+}
+
+#footer .logo-block {
+	display: inline-block;
+	vertical-align: middle;
+	padding : 5px;
+	height: 100%;
+}
