@@ -808,3 +808,18 @@ tr.planning-day-row td {
 #footer .footer-body {
 	background-image: none;
 }
+
+.trend-good h2, .trend-good svg {
+	color: seagreen;
+	fill: seagreen;
+}
+
+.trend-bad h2, .trend-bad svg {
+	color: orangered;
+	fill: orangered;
+}
+
+.trend-neutral h2, .trend-neutral svg {
+	color: black;
+	fill: black;
+}
