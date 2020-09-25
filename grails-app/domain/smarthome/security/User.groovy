@@ -44,7 +44,7 @@ class User implements Serializable {
 		username blank: false, unique: true, validator: SmartHomeSecurityUtils.emailValidator
 		password blank: false, validator: SmartHomeSecurityUtils.passwordValidator
 		nom blank: false
-		prenom blank: false
+		prenom blank: true
 		roles bindable: true
 		telephoneMobile nullable: true
 		lastConnexion nullable: true
