@@ -18,6 +18,8 @@ import grails.plugin.springsecurity.SpringSecurityUtils
  */
 class SmartHomeSecurityUtils {
 
+	// TODO validators should return message ids instead of messages
+
 	private static final Pattern EMAIL_PATTERN = Pattern.compile("(.+)@(.+)\\.(.+)")
 	
 	/**
@@ -50,13 +52,32 @@ class SmartHomeSecurityUtils {
 	 */
 	static final passwordValidator = { String password, command ->
 		if (command.username && command.username.equals(password)) {
-			return 'Veuillez choisir un mot de passe différent de votre email'
+			return 'securityUtils.password.mustNotMatchMail'
 		}
 
-		if (!checkPasswordMinLength(password, command) ||
-		!checkPasswordMaxLength(password, command) ||
-		!checkPasswordRegex(password, command)) {
-			return "Le mot de passe n'est pas assez sécurisé"
+		def conf = SpringSecurityUtils.securityConfig
+
+		int minLength = conf.ui.password.minLength instanceof Number ? conf.ui.password.minLength : 8
+
+		if (!password || password.length() < minLength) {
+			return ['securityUtils.password.tooShort', minLength]
+		}
+
+		int maxLength = conf.ui.password.maxLength instanceof Number ? conf.ui.password.maxLength : 64
+
+		if (password.length() > maxLength) {
+			return ['securityUtils.password.tooLong', maxLength]
+		}
+
+		if (conf.ui.password.validationRegex) {
+			if (!password.matches(passValidationRegex)) {
+				return 'securityUtils.password.notSecure'
+			}
+		} else {
+			String passValidationRegex = '^.*(?=.*\\d)(?=.*[a-zA-Z]).*$'
+			if (!password.matches(passValidationRegex)) {
+				return 'securityUtils.password.mustContainLettersAndDigits'
+			}
 		}
 	}
 
@@ -66,57 +87,8 @@ class SmartHomeSecurityUtils {
 	 */
 	static final passwordConfirmValidator = { value, command ->
 		if (command.newPassword != command.confirmPassword) {
-			return "Les mots de passe ne correspondent pas"
+			return 'securityUtils.password.doesNotMatchConfirmation'
 		}
 	}
 
-
-	/**
-	 * Vérifie la taille minimale du mot de passe
-	 * 
-	 * @param password
-	 * @param command
-	 * @return
-	 */
-	static boolean checkPasswordMinLength(String password, command) {
-		def conf = SpringSecurityUtils.securityConfig
-
-		int minLength = conf.ui.password.minLength instanceof Number ? conf.ui.password.minLength : 8
-
-		password && password.length() >= minLength
-	}
-
-
-	/**
-	 * Vérifie la taille maximale du mot de passe
-	 * 
-	 * @param password
-	 * @param command
-	 * @return
-	 */
-	static boolean checkPasswordMaxLength(String password, command) {
-		def conf = SpringSecurityUtils.securityConfig
-
-		int maxLength = conf.ui.password.maxLength instanceof Number ? conf.ui.password.maxLength : 64
-
-		password && password.length() <= maxLength
-	}
-
-
-	/**
-	 * Vérifie le pattern du mot de passe
-	 * 
-	 * @param password
-	 * @param command
-	 * @return
-	 */
-	static boolean checkPasswordRegex(String password, command) {
-		def conf = SpringSecurityUtils.securityConfig
-
-		String passValidationRegex = conf.ui.password.validationRegex ?:
-				'^.*(?=.*\\d)(?=.*[a-zA-Z]).*$'
-
-		password && password.matches(passValidationRegex)
-	}
-	
 }
