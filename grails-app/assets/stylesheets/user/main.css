@@ -841,6 +841,20 @@ body {
 	height: 100%;
 }
 
+form.login .field-group, form.login .buttons-container {
+	padding-left: 0px;
+	text-align: center;
+}
+
+button.aui-button-primary.highlight {
+	background: limegreen;
+	font-size: 16px;
+}
+
+button.aui-button-primary.highlight:hover {
+	background: lawngreen;
+}
+
 .trend-good h2, .trend-good svg {
 	color: seagreen;
 	fill: seagreen;

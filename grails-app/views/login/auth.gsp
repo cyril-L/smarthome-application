@@ -10,51 +10,56 @@
     	<h1><g:meta name="app.code"/></h1>
     </g:if>
     <g:else>
-    	<h1>Bienvenue sur l'application <g:meta name="app.code"/></h1>
+    	<h1>Bienvenue sur <g:meta name="app.code"/></h1>
     </g:else>
-      
-    <h3 class="separator">Veuillez saisir vos identifiants</h3>
-          
-	<form action="${postUrl}" method="post" id="d" class="aui ${ mobileAgent ? 'top-label' : '' }" autocomplete='off'>
-		<fieldset>
-	        <div class="field-group">
-	            <label for="username">Adresse mail<span class="aui-icon icon-required"> required</span></label>
-	            <input class="text" type="email" id="username" name="j_username" placeholder="yourmail@example.com" autofocus="true">
-	        </div>
-	        <div class="field-group">
-	            <label for="password1" accesskey="p">Mot de passe<span class="aui-icon icon-required"> required</span></label>
-	            <input class="password" type="password" id="password" name="j_password">
-	        </div>
-	     </fieldset>
-	     
-	     <fieldset class="group">
-	        <div class="checkbox">
-	            <input class="checkbox" type="checkbox" name="${rememberMeParameter}" id="remember_me" checked='checked'>
-	            <label for="remember_me">Mémoriser mes identifiants</label>
-	        </div>                                
-	    </fieldset>
-	    
-	    <div class="buttons-container">
-	        <div class="buttons">
-	            <input class="aui-button aui-button-primary" type="submit" value="S'authentifier" id="connexion">
-	            <g:link class="cancel" controller="register" action="forgotPassword">J'ai oublié mon mot de passe</g:link>
-	        </div>
-	    </div>
-	</form>
-	
-	
-	<h2 class="separator"></h2>
-	
-    <h3>Liens utiles</h3>
-	
-	<div class="buttons-container" style="padding-top:20px">
-        <div class="buttons">
-            <a class="aui-button" href="https://github.com/gelleouet/smarthome-application" target="blank"><span class="aui-icon aui-icon-small aui-iconfont-user"></span> Github application</a>
-            <a class="aui-button" href="https://github.com/gelleouet/smarthome-application/wiki" target="blank"><span class="aui-icon aui-icon-small aui-iconfont-user"></span> Wiki application</a>
-            <a class="aui-button" href="https://github.com/gelleouet/smarthome-raspberry" target="blank"><span class="aui-icon aui-icon-small aui-iconfont-user"></span> Github agent</a>
-            <a class="aui-button" href="https://github.com/gelleouet/smarthome-raspberry/wiki" target="blank"><span class="aui-icon aui-icon-small aui-iconfont-user"></span> Wiki agent</a>
-        </div>
-    </div>
+
+		<div class="aui-group">
+			<div class="aui-item">
+
+			<h3 class="separator">1) Visualiser ma conso</h3>
+
+			<form action="${postUrl}" method="post" id="d" class="aui login ${ mobileAgent ? 'top-label' : '' }" autocomplete='off'>
+				<fieldset>
+					<div class="field-group">
+						<input class="text" type="email" id="username" name="j_username" placeholder="Adresse mail" autofocus="true">
+					</div>
+					<div class="field-group">
+						<input class="password" type="password" id="password" name="j_password" placeholder="Mot de passe" >
+					</div>
+				 </fieldset>
+				 <fieldset class="group">
+					<div class="checkbox">
+						<input type="hidden" name="${rememberMeParameter}" id="remember_me" value='true'>
+					</div>
+				</fieldset>
+				<div class="buttons-container">
+					<div class="buttons">
+						<input class="aui-button aui-button-primary" type="submit" value="Me connecter" id="connexion">
+						<br/>
+						<g:link class="cancel" controller="register" action="forgotPassword">J'ai oublié mon mot de passe</g:link>
+					</div>
+				</div>
+			</form>
+				<g:form controller="register" action="account" class="aui login">
+					<div class="buttons-container">
+					<button class="aui-button aui-button-primary highlight">Créer un compte</button>
+					</div>
+				</g:form>
+			</div>
+			<div class="aui-item">
+				<h3 class="separator">2) Rejoindre notre communauté</h3>
+				<p>Accroche et petite description du groupe</p>
+				<ul>
+				<li>🌳 Éco gestes</li>
+				<li>👍 Défis</li>
+				<li>😀 Communauté</li>
+				</ul>
+				<p>
+				<strong>Notre communauté n'attend plus que VOUS,<br/>
+					<a href="#">rejoinez-nous sur Facebook</a> !</strong>
+				</p>
+			</div>
+		</div>
 	</g:applyLayout>
 	
 </body>

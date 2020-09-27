@@ -9,19 +9,6 @@
         	</a>
       	 </div>	
       </div>
-      
-      <div class="aui-header-secondary">
-          <ul class="aui-nav">
-              <li>
-              	<a href="https://www.facebook.com/notes/bemyhomesmart/présentation-générale/545777579088817/" target="blank" class="aui-button aui-button-primary">Découvrir</a>
-              </li>
-              <li>
-              	<g:form controller="register" action="account">
-              		<button class="aui-button aui-button-primary">Créer un compte</button>
-              	</g:form>
-              </li>
-          </ul>
-      </div>
   </nav>
 
 <!-- App Header goes inside #header -->
