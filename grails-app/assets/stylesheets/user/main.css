@@ -809,6 +809,28 @@ tr.planning-day-row td {
 	background-image: none;
 }
 
+#footer {
+	background: white;
+	margin-top: 20px;
+	border-top: 1px solid #dfe1e6;
+}
+
+#footer td, #footer th {
+	vertical-align: top;
+	text-align: left;
+}
+
+#footer th {
+	padding-bottom: 20px;
+}
+
+#footer .logo-block {
+	display: inline-block;
+	vertical-align: middle;
+	padding : 10px;
+	height: 100%;
+}
+
 .trend-good h2, .trend-good svg {
 	color: seagreen;
 	fill: seagreen;
