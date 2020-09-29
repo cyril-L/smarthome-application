@@ -17,19 +17,19 @@
 			<td>
 			    <div class="logo-block">
                     <a href="https://www.aloen.fr/">
-						<img src="https://www.federation-flame.org/wp-content/uploads/2013/09/Aloen-noir.jpg" style="height: 100px;"/>
+						<asset:image src="aloen_couleur_sd.png" style="width: 80px;"/>
 					</a>
                 </div>
                 <div class="logo-block">
 					<a href="https://www.consometers.org/">
-						<asset:image src="consometers-logo.png" style="height: 120px;"/>
+						<asset:image src="consometers-logo.png" style="width: 120px;"/>
 					</a>
 				</div>
 			</td>
 			<td>
                 <div class="logo-block">
 					<a href="https://www.bretagne.bzh/">
-                    	<img src="https://upload.wikimedia.org/wikipedia/fr/8/83/R%C3%A9gion-bretagne-logo.svg" style="width: 80px;"/>
+                    	<img src="https://upload.wikimedia.org/wikipedia/fr/8/83/R%C3%A9gion-bretagne-logo.svg" style="width: 70px;"/>
 					</a>
                 </div>
                 <div class="logo-block">
