@@ -3,6 +3,8 @@ package smarthome.api
 import org.springframework.security.access.annotation.Secured
 
 import grails.converters.JSON
+import smarthome.automation.NotificationAccount
+import smarthome.automation.NotificationAccountSender
 import smarthome.core.AbstractController
 import smarthome.core.ExceptionNavigationHandler
 import smarthome.security.User
@@ -40,7 +42,7 @@ class DataConnectController extends AbstractController {
 			redirect(url: 'https://www.jdevops.com/granddefi/compteur/compteur', params: [info: info])
 		} else {
 			setInfo(info)
-			forward(controller: 'notificationAccount', action: 'notificationAccounts')
+			redirect(controller: 'dataChallenge', action: 'dashboard')
 		}
 	}
 
@@ -119,5 +121,20 @@ class DataConnectController extends AbstractController {
 		render(contentType: "application/json") {
 			datapoints
 		}
+	}
+
+	def widget() {
+		def user = authenticatedUser
+		NotificationAccountSender accountSender = NotificationAccountSender.findByLibelle(grailsApplication.config.enedis.appName)
+		NotificationAccount notificationAccount = NotificationAccount.createCriteria().get {
+			eq 'user', user
+			eq 'notificationAccountSender', accountSender
+		}
+		if (notificationAccount) {
+			notificationAccount.configToJson()
+		}
+		[notificationAccount: notificationAccount]
+//		def house = houseService.findDefaultByUser(user)
+//		render(template: '/deviceType/teleInformation/widget', model: [house: house])
 	}
 }

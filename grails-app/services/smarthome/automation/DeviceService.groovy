@@ -72,6 +72,7 @@ class DeviceService extends AbstractService {
 	@Transactional(readOnly = false, rollbackFor = [SmartHomeException])
 	Device save(Device device) throws SmartHomeException {
 		if (!device.save()) {
+			log.warn device.errors.allErrors.join(' \n')
 			throw new SmartHomeException("Erreur enregistrement device !", device)
 		}
 

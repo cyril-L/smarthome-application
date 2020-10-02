@@ -4,9 +4,9 @@
   <nav class="aui-header aui-dropdown2-trigger-group" role="navigation">
   	  <div class="aui-header-primary desktop-only">
   	  	 <div class="aui-header-logo logoParentHeader" >
-  	  		<a href="">
+  	  		<g:link controller="login" action="auth">
 	        	<span class="logoTextHeader"><g:meta name="app.code"/></span>
-        	</a>
+			</g:link>
       	 </div>	
       </div>
   </nav>

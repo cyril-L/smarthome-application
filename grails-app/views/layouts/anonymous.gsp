@@ -23,7 +23,7 @@
 	</g:else>
 	
 	
-	<body class="${ bodyClass }" onload="${pageProperty(name: 'body.onload')}">
+	<body class="${ bodyClass }" onload="${pageProperty(name: 'body.onload')}" style="${pageProperty(name: 'body.style')}">
 		<g:include view="/layouts/headerAnonymous.gsp"/>
 		<section id="content" role="main">
 			<g:layoutBody/>

@@ -53,7 +53,8 @@ class RegisterService extends AbstractService {
 	 * @return
 	 */
 	@Transactional(readOnly = false, rollbackFor = [SmartHomeException])
-	@AsynchronousWorkflow("registerService.createAccount")
+	// FIXME cyril disabled mail activation
+	//@AsynchronousWorkflow("registerService.createAccount")
 	RegistrationCode createAccount(AccountCommand account) throws SmartHomeException {
 		log.info "Demande création compte ${account.username}"
 		
@@ -74,14 +75,19 @@ class RegisterService extends AbstractService {
 		}
 		
 		// création d'un user avec compte bloqué en attente déblocage
-		user = new User(username: account.username, password: account.newPassword, prenom: account.prenom, 
-			nom: account.nom, lastActivation: new Date(), accountLocked: true,
+		user = new User(username: account.username, password: account.newPassword, prenom: account.prenom,
+			nom: account.nom, lastActivation: new Date(), accountLocked: false,
 			applicationKey: UUID.randomUUID(), profilPublic: account.profilPublic)
 		
 		if (!user.save()) {
 			throw new SmartHomeException("Erreur création nouveau compte !", account, user.errors)
 		}
-		
+
+		if (springSecurityService.isLoggedIn()) {
+			redirect uri: config.successHandler.defaultTargetUrl
+			return
+		}
+
 		return registrationCode
 	}
 	

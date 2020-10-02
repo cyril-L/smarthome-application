@@ -1,8 +1,11 @@
 package smarthome.application
 
 import smarthome.automation.HouseService;
-import smarthome.core.AbstractController;
-import smarthome.core.WidgetService;
+import smarthome.core.AbstractController
+import smarthome.core.Widget;
+import smarthome.core.WidgetService
+import smarthome.core.WidgetUser
+import smarthome.datachallenge.DataChallengeService;
 import smarthome.security.User;
 import smarthome.security.UserFriend;
 import smarthome.security.UserFriendService;
@@ -21,16 +24,37 @@ class TableauBordController extends AbstractController {
 	UserFriendService userFriendService
 	WidgetService widgetService
 	HouseService houseService
-	
-	
+
+	DataChallengeService dataChallengeService
+
 	/**
 	 * 
 	 * @return
 	 */
 	def index() {
+		/*def user = authenticatedUser
+		// FIXME(cyril) Ugly way to set force some widgets
+		def defaultWidgets = [
+				[name: "Ma conso", col: 0, row: 0],
+				[name: "Facebook group", col: 1, row: 0],
+				[name: "Enedis Data Connect", col: 0, row: 1],
+		]
+		defaultWidgets.each {
+			Widget widget = Widget.findByLibelle(it.name)
+			if (!widget) {
+				throw new RuntimeException("No default widget named $it.name")
+			}
+			WidgetUser widgetUser = widgetService.addWidgetUser(widget, user.id)
+			widgetService.moveWidgetUser(widgetUser, it.row, it.col)
+		}
+		def widgetUsers = widgetService.findAllByUserId(principal.id)*/
 		def user = authenticatedUser
-		def widgetUsers = widgetService.findAllByUserId(principal.id)
-		render(view: 'tableauBord', model: [user: user, widgetUsers: widgetUsers, secUser: user])
+		def widgetUsers = dataChallengeService.getWidgets(user)
+		render(view: 'tableauBord', model: [
+				user: user,
+				widgetUsers: widgetUsers,
+				defaultWidgets: dataChallengeService.DEFAULT_WIDGETS,
+				secUser: user])
 	}
 	
 	

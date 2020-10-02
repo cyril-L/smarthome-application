@@ -52,7 +52,7 @@ class RegisterController extends AbstractController {
 	def createAccount(AccountCommand account) {
 		checkErrors(this, account)
 		registerService.createAccount(account)
-		setInfo "Votre demande a bien été prise en compte. Veuillez consulter vos mails pour activer votre compte."
+		setInfo "Votre compte a été créé, vous pouvez maintenant vous connecter."
 		forward(controller: 'login', action: 'auth')	
 	}
 	

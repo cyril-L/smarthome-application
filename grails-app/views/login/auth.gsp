@@ -3,15 +3,10 @@
 	<meta name='layout' content='anonymous'/>
 </head>
 
-<body>
+<body style="background: #0747a6;">
 	<g:applyLayout name="applicationContent">
-    
-    <g:if test="${ mobileAgent }">
-    	<h1><g:meta name="app.code"/></h1>
-    </g:if>
-    <g:else>
-    	<h1>Bienvenue sur <g:meta name="app.code"/></h1>
-    </g:else>
+
+		<asset:image src="banner.jpg" style="width: 100%;" alt="Bienvenue sur ConsoHeroes !"/>
 
 		<div class="aui-group">
 			<div class="aui-item">
@@ -36,10 +31,11 @@
 					<div class="buttons">
 						<input class="aui-button aui-button-primary" type="submit" value="Me connecter" id="connexion">
 						<br/>
-						<g:link class="cancel" controller="register" action="forgotPassword">J'ai oublié mon mot de passe</g:link>
+						<!--<g:link class="cancel" controller="register" action="forgotPassword">J'ai oublié mon mot de passe</g:link>-->
 					</div>
 				</div>
 			</form>
+				<h3 class="separator" style="margin-top: 10px;"></h3>
 				<g:form controller="register" action="account" class="aui login">
 					<div class="buttons-container">
 					<button class="aui-button aui-button-primary highlight">Créer un compte</button>
@@ -48,15 +44,15 @@
 			</div>
 			<div class="aui-item">
 				<h3 class="separator">2) Rejoindre notre communauté</h3>
-				<p>Accroche et petite description du groupe</p>
+				<p>Venez découvrir</p>
 				<ul>
-				<li>🌳 Éco gestes</li>
-				<li>👍 Défis</li>
-				<li>😀 Communauté</li>
+				<li>🌱 des éco gestes</li>
+				<li>👍 des défis</li>
+				<li>😀 une communauté</li>
 				</ul>
 				<p>
 				<strong>Notre communauté n'attend plus que VOUS,<br/>
-					<a href="#">rejoinez-nous sur Facebook</a> !</strong>
+					<a href="https://www.facebook.com/groups/422285815424568">rejoignez-nous sur Facebook</a> !</strong>
 				</p>
 			</div>
 		</div>

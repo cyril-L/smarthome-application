@@ -269,4 +269,46 @@ function hideDialog(dialogId) {
 	AJS.dialog2('#' + dialogId).hide();
 }
 
+$( document ).ready(function() {
+	$( "#capture" ).click(function() {
+		html2canvas(document.querySelector("body")).then(canvas => {
+			document.body.appendChild(canvas)
+			var data = canvas.toDataURL("image/png");
+			try {
+				blob = dataURItoBlob(data);
+			} catch (e) {
+				console.log(e);
+			}
+			var fd = new FormData();
+			fd.append("data", blob);
 
+			$.ajax({
+				url: "http://localhost:8080/smarthome-application/file/create",
+				type: "POST",
+				data: fd,
+				processData: false,
+				contentType: false,
+				cache: false,
+				success: function (data) {
+					console.log("success: ", data);
+				},
+				error: function (shr, status, data) {
+					console.log("error " + data + " Status " + shr.status);
+				},
+				complete: function (data) {
+					//console.log('Post to facebook Complete');
+				}
+			});
+		});
+	});
+})
+
+function dataURItoBlob(dataURI) {
+	var byteString = atob(dataURI.split(',')[1]);
+	var ab = new ArrayBuffer(byteString.length);
+	var ia = new Uint8Array(ab);
+	for (var i = 0; i < byteString.length; i++) {
+		ia[i] = byteString.charCodeAt(i);
+	}
+	return new Blob([ab], {type: 'image/png'});
+}

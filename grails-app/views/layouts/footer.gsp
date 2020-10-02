@@ -2,7 +2,7 @@
 	<table class="footer-body" style="text-align: center; width: 100%;">
         <thead>
 		    <tr>
-			    <th><h6 class="h6">Contact</h6></th>
+			    <th><h6 class="h6">Contact : <a href="mailto:datachallenge@consometers.org">datachallenge@consometers.org</a></h6></th>
 			    <th><h6 class="h6">Proposé par</h6></th>
 			    <th><h6 class="h6">Avec le soutien de</h6></th>
 		    </tr>
@@ -11,9 +11,10 @@
 		<tr>
 		    <!-- TODO use images in assets -->
 			<td>
-			    <h6 class="h6"><a href="mailto:datachallenge@consometers.org">datachallenge@consometers.org</a></h6>
-			    <h6 class="h6"><a href="#">Groupe Facebook</a></h6>
-			</td>
+			    <h6 class="h6"><a href="https://www.facebook.com/groups/422285815424568">Groupe Facebook</a></h6>
+				<h6 class="h6"><g:link controller="public" action="legal">Mentions Légales</g:link></h6>
+				<h6 class="h6"><g:link controller="public" action="privacy">Données personnelles</g:link></h6>
+		</td>
 			<td>
 			    <div class="logo-block">
                     <a href="https://www.aloen.fr/">
@@ -22,7 +23,7 @@
                 </div>
                 <div class="logo-block">
 					<a href="https://www.consometers.org/">
-						<asset:image src="consometers-logo.png" style="width: 120px;"/>
+						<asset:image src="consometers-logo.png" style="width: 140px;"/>
 					</a>
 				</div>
 			</td>

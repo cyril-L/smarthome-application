@@ -12,10 +12,15 @@
 		<asset:stylesheet src="application.css"/>
 		<asset:javascript src="application.js"/>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 		<g:layoutHead/>
 	</head>
-	<body onload="${pageProperty(name: 'body.onload')}">
-	
+	<body class="${pageProperty(name:'body.class')}" onload="${pageProperty(name: 'body.onload')}">
+
+	<div id="capture" style="padding: 10px; background: #f5da55; display: none;">
+		<h4 style="color: #000; ">Hello world!</h4>
+	</div>
+
 		<g:include view="/layouts/headerAuthenticated.gsp"/>
 		
 		<section id="content" role="main" <%= app.stateInsertAttr()  %>>
