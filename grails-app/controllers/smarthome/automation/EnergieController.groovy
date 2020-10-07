@@ -47,22 +47,39 @@ class EnergieController extends AbstractController {
 
 	def briefWidget() {
 		def user = authenticatedUser
-		def house = houseService.findDefaultByUser(user)
-		def device = house.compteur
 
 		// TODO cyril view should directly take the list of values to manage how to display dates
-
 		Date today = new Date().clearTime()
 		Date thisMonth = DateUtils.firstDayInMonth(today)
 		Date previousMonth
 		use(TimeCategory) { previousMonth = thisMonth - 1.month }
-		def meanThisMonth = meanConsumption(device, thisMonth,  today)
-		def meanPreviousMonth = meanConsumption(device, previousMonth, DateUtils.lastDayInMonth(previousMonth))
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(today);
+		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+		DeviceType linkyDevice = DeviceType.findByLibelle(grailsApplication.config.enedis.compteurLabel)
+		Device device = Device.createCriteria().get {
+			eq 'user', user
+			eq 'deviceType', linkyDevice
+		}
+
+		def meanThisMonth
+		def meanPreviousMonth
+
+		if (device) {
+			meanThisMonth = meanConsumption(device, thisMonth,  today)
+			meanPreviousMonth = meanConsumption(device, previousMonth, DateUtils.lastDayInMonth(previousMonth))
+		} else {
+			meanThisMonth = null
+			meanPreviousMonth = null
+		}
 
 		[
 				device: device,
 		 		previousMonth: previousMonth,
 		 		today: today,
+				dayOfMonth: dayOfMonth,
 				meanThisMonth: meanThisMonth,
 				meanPreviousMonth: meanPreviousMonth
 		]
