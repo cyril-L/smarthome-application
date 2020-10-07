@@ -8,6 +8,9 @@ class DataChallengeController {
 
     DataChallengeService dataChallengeService
 
+    def facebookGroupWidget() {
+    }
+
     def dashboard() {
         def user = authenticatedUser
         Device linky = dataChallengeService.getLinky(user)
