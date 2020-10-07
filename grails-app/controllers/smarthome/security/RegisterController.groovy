@@ -19,6 +19,7 @@ import smarthome.security.ResetPasswordCommand;
 class RegisterController extends AbstractController {
 
 	def registerService
+	def springSecurityService
 	LinkGenerator grailsLinkGenerator
 	
 	/**
@@ -52,7 +53,18 @@ class RegisterController extends AbstractController {
 	def createAccount(AccountCommand account) {
 		checkErrors(this, account)
 		registerService.createAccount(account)
-		setInfo "Votre demande a bien été prise en compte. Veuillez consulter vos mails pour activer votre compte."
+
+		// Auto login user and redirect to Data Connect button
+
+		springSecurityService.reauthenticate(account.username, account.newPassword)
+		if (springSecurityService.isLoggedIn()) {
+			// TODO(cyril) change with app root
+			return redirect(controller: 'dataChallenge', action: 'personalData')
+		}
+
+		// This is not expected to happen, kept it just in case
+
+		setInfo "Votre compte a été créé, vous pouvez maintenant vous connecter."
 		forward(controller: 'login', action: 'auth')	
 	}
 	
