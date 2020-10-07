@@ -40,7 +40,7 @@ class DataConnectController extends AbstractController {
 			redirect(url: 'https://www.jdevops.com/granddefi/compteur/compteur', params: [info: info])
 		} else {
 			setInfo(info)
-			forward(controller: 'notificationAccount', action: 'notificationAccounts')
+			redirect(controller: 'dataChallenge', action: 'dashboard')
 		}
 	}
 
