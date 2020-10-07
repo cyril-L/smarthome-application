@@ -29,6 +29,11 @@
 	            <div class="description">Minimum 8 caractères dont 1 chiffre</div>
 	        </div>
 	     </fieldset>
+		<fieldset class="group">
+			<div class="checkbox">
+				<input type="checkbox" name="privacy" value='false' required="required"> En créant votre compte, vous nous autorisez à utiliser vos données pour les finalités décrite sur la <g:link controller="public" action="privacy">page relative aux données personnelles</g:link>.
+			</div>
+		</fieldset>
 		%{-- FIXME cyril do not ask for real name and data sharing at signup --}%
 		<g:hiddenField name="prenom" value=" " />
 		<g:hiddenField name="profilPublic" value="false" />

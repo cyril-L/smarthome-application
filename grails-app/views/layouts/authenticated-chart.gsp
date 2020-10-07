@@ -14,8 +14,8 @@
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<g:layoutHead/>
 	</head>
-	<body onload="${pageProperty(name: 'body.onload')}">
-	
+	<body class="${pageProperty(name:'body.class')}" onload="${pageProperty(name: 'body.onload')}">
+
 		<g:include view="/layouts/headerAuthenticated.gsp"/>
 		
 		<section id="content" role="main" <%= app.stateInsertAttr()  %>>

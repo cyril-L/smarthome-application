@@ -11,6 +11,12 @@ class DataChallengeController {
     def facebookGroupWidget() {
     }
 
+    def personalData() {
+        def user = authenticatedUser
+        Device linky = dataChallengeService.getLinky(user)
+        [linky: linky]
+    }
+
     def dashboard() {
         def user = authenticatedUser
         Device linky = dataChallengeService.getLinky(user)
