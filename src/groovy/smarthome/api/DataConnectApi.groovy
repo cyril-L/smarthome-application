@@ -60,7 +60,7 @@ class DataConnectApi {
 	String authorize_uri() {
 		String url = "${URLS[(grailsApplication.config.enedis.env)].authorize}/dataconnect/v1/oauth2/authorize"
 		url += "?client_id=${grailsApplication.config.enedis.client_id}"
-		url += "&duration=P3Y"
+		url += "&duration=P6M"
 		url += "&response_type=code"
 		url += "&state=${grailsApplication.config.enedis.state}"
 		return url
