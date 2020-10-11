@@ -7,9 +7,11 @@
 						<span class="aui-icon aui-icon-small aui-iconfont-configure"></span>
 					</g:link>
 				</g:if>
+				<g:if test="${ !defaultWidgets.containsKey(widgetUser.widget.libelle) }">
 				<g:link class="aui-button aui-button-subtle" title="Supprimer" controller="widget" action="removeWidgetUser" id="${ widgetUser.id }">
 					<span class="aui-icon aui-icon-small aui-iconfont-close-dialog"></span>
 				</g:link>
+				</g:if>
 			</div>
 		</div>
 		
