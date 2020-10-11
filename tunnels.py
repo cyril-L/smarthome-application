@@ -12,6 +12,10 @@ parser.add_argument("--rabbitmq", help="Forward  remote RabbitMQ to local",
 parser.add_argument("--app", help="Forward local web app to remote",
                     action="store_true")
 
+parser.add_argument("--user", help="Remote user", default="clugan")
+parser.add_argument("--host", help="Remote host", default="srv6.breizh-sen2.eu")
+parser.add_argument("--port", help="SSH port", default="22000")
+
 args = parser.parse_args()
 
 tunnels = []
@@ -32,8 +36,9 @@ if not tunnels:
 processes = []
 
 for tunnel in tunnels:
-    print(f"Launching {tunnel}")
-    p = subprocess.Popen(["ssh", "-p", "22000", "-N"] + tunnel + ["clugan@srv6.breizh-sen2.eu"])
+    cmd = ["ssh", "-p", args.port, "-N"] + tunnel + [f"{args.user}@{args.host}"]
+    print(cmd)
+    p = subprocess.Popen(cmd)
     processes.append(p)
 
 input("Press Enter to stop forwards...")
