@@ -65,6 +65,11 @@ class GoogleChart {
 					}
 				}
 
+				// TODO(cyril) Fixes null values breaking diff google chart
+				if (value == null) {
+					value = 0
+				}
+
 				values << [v: value]
 			}
 

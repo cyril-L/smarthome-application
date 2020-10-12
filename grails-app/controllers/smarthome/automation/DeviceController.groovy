@@ -1,5 +1,6 @@
 package smarthome.automation
 
+import groovy.time.TimeCategory
 import org.springframework.security.access.annotation.Secured
 
 import smarthome.core.AbstractController
@@ -14,6 +15,8 @@ import smarthome.plugin.NavigationEnum
 import smarthome.security.User
 import smarthome.security.UserFriendService
 import smarthome.security.UserService
+
+import java.sql.Timestamp
 
 
 @Secured("isAuthenticated()")
@@ -218,6 +221,30 @@ class DeviceController extends AbstractController {
 
 		if (command.comparePreviousYear) {
 			compareChart = deviceValueService.createChart(command.cloneForLastYear())
+			if (chart.values.size() != compareChart.values.size()) {
+				chart.values.each { value ->
+					Timestamp month = value.key
+					Timestamp prevYear
+					use (TimeCategory) {
+						prevYear = new Timestamp((month - 1.year).getTime())
+					}
+					def compareHasPrevYear = compareChart.values.any {
+						it.key == prevYear
+					}
+					if (!compareHasPrevYear) {
+						DeviceValueMonth unknownValue = new DeviceValueMonth()
+						unknownValue.dateValue = prevYear
+						unknownValue.name = "basesum"
+						unknownValue.value = 0
+
+						Map.Entry<String, Integer> entry =
+								new AbstractMap.SimpleEntry<Timestamp, ArrayList<DeviceValueMonth>>(
+										prevYear, [unknownValue]);
+						compareChart.values.add(entry)
+					}
+				}
+				compareChart.values = compareChart.values.sort { it.key }
+			}
 		}
 
 		render(view: 'deviceChart', model: [command: command, chart: chart, secUser: user,

@@ -86,25 +86,14 @@
 			      },
 			      selectionMode: 'multiple',
 		          'seriesType': 'bars',
-		          diff: {
-				  	oldData: {
-				  		tooltip: {
-				  			prefix: null
-				  		}
-				  	},
-				  	newData: {
-				  		tooltip: {
-				  			prefix: null
-				  		}
-				  	},
-				  },
+                  tooltip: { trigger: 'none' },
 				  vAxes: {
 		          	0: {title: 'Énergie consommée (kWh)'}
 		          },
 				  hAxis: {
 				  	gridlines: { color: 'none' },
 		          	slantedText: true,
-		          	format: '${ chart.format(command) }'
+		          	format: 'MMMM'
 			      },
 		  	};
 	  	</g:else>

@@ -70,8 +70,17 @@ function buildGoogleChart(divChart) {
 			}
 			
 			if (chartOldDatas) {
+				// Uggly workaround
+				// Did not manage to customize labels and tooltips
+				// https://github.com/google/google-visualization-issues/issues/1455
+				// https://groups.google.com/g/google-visualization-api/c/UKGGmaOnn50
 				var diffDatas = chart.computeDiff(chartOldDatas, chartDatas)
 				chart.draw(diffDatas, chartOptions);
+				$("text").each(function () {
+					if ($(this).text() == "Previous data") {
+						$(this).text('Année précédente');
+					}
+				});
 			} else if (chartJoinDatas) {
 				var joinDatas = google.visualization.data.join(chartDatas, chartJoinDatas, 'full',
 						[[0,0]], [1,2,3,4], [1])
