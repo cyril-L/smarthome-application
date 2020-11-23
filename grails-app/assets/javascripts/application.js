@@ -5,8 +5,9 @@
 // You're free to add application-wide JavaScript to this file, but it's generally better 
 // to create separate JavaScript files as needed.
 //
-//= require jquery-1.11.1.min
-//= require jquery-ui.min-1.11.3
+//= require jquery-1.7.1.min
+//= require jquery-ui.min-1.8.17
+//= require jquery.ui.touch-punch
 //= require jquery-picklist.min
 //= require datatables-1.10.2
 //= require jquery.datetimepicker.full.min
