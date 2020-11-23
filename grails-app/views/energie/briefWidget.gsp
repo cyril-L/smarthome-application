@@ -38,31 +38,35 @@
     </div>
     <div>
         <h5 style="margin-top:10px">Consommation moyenne</h5>
-        <ul class="label" style="padding-inline-start:5px;list-style-position: inside;">
-            <li>
+        <table class="label" style="width: 100%;">
+            <tr style="padding:5px;">
                 <g:if test="${dayOfMonth != 1}">
-                    du 1er au <g:formatDate date="${today}" format="d MMMM"/> :
+                    <td>du 1er au <g:formatDate date="${today}" format="d MMMM"/></td>
+                    <td style="text-align: center;">
                     <g:if test="${meanThisMonth}">
-                        <g:formatNumber number="${meanThisMonth / 1000}" maxFractionDigits="0"/>  kWh / jour
+                        <g:formatNumber number="${meanThisMonth / 1000}" maxFractionDigits="1"/>  kWh / jour
                     </g:if>
                     <g:else>
                         non disponible
                     </g:else>
+                    </td>
                 </g:if>
                 <g:else>
-                    le 1er <g:formatDate date="${today}" format="MMMM"/> : en cours de mesure
+                    <td>le 1er <g:formatDate date="${today}" format="MMMM"/></td><td>en cours de mesure</td>
                 </g:else>
-            </li>
-            <li>
-                <g:formatDate date="${previousMonth}" format="MMMM"/> :
-                <g:if test="${meanPreviousMonth}">
-                    <g:formatNumber number="${meanPreviousMonth / 1000}" maxFractionDigits="0"/>  kWh / jour
-                </g:if>
-                <g:else>
-                    non disponible
-                </g:else>
-            </li>
-        </ul>
+            </tr>
+            <tr style="padding:5px;">
+                <td><g:formatDate date="${previousMonth}" format="MMMM"/></td>
+                <td style="text-align: center;">
+                    <g:if test="${meanPreviousMonth}">
+                        <g:formatNumber number="${meanPreviousMonth / 1000}" maxFractionDigits="1"/>  kWh / jour
+                    </g:if>
+                    <g:else>
+                        non disponible
+                    </g:else>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
 
