@@ -51,7 +51,7 @@ grails {
 			htmlcodec = 'xml' // use xml escaping instead of HTML4 escaping
 			codecs {
 				expression = 'html' // escapes values inside ${}
-				scriptlet = 'html' // escapes output from scriptlets in GSPs
+				scriptlet = 'none' // escapes output from scriptlets in GSPs // FIXME Cyril, did not manage to use the raw() thing with ${}
 				taglib = 'none' // escapes output from taglibs
 				staticparts = 'none' // escapes output from static template parts
 			}
