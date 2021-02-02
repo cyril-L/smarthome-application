@@ -3,21 +3,20 @@
     <meta name='layout' content='consoherozh-app' />
 </head>
 <body>
-<h1>Tableau de bord</h1>
+<h1 class="mb-4 mt-2">Tableau de bord</h1>
 
 <div class="dashboard">
 
-<counter-connected class="draggable" title="Linky" <g:if test="${linky}">connected</g:if>>
+<counter-connected
+  class="draggable"
+  title="Linky"
+  connect-url="${createLink(controller: "dataChallenge", action: "personalData")}"
+  <g:if test="${linky}">
+      connected
+      view-entries-url="${createLink(controller: "device", action: "deviceChart", params:['device.id': linky.id])}"
+  </g:if>>
     <ion-icon slot="icon" name="flash-outline"></ion-icon>
     <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>
-    <g:if test="${linky}">
-        <g:link controller="device" action="deviceChart" params="['device.id': linky.id]" role="button" slot="view-entries-btn" class="text-secondary">
-            <ion-icon name="bar-chart-outline" style="font-size: 32px;"></ion-icon>
-        </g:link>
-    </g:if>
-    <g:link controller="dataChallenge" action="personalData" role="button" slot="connect-btn">
-        <button type="button" class="btn btn-outline-secondary" id="connect-btn">Connecter</button>
-    </g:link>
 </counter-connected>
 
 <g:if test="${linky}">

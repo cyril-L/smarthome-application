@@ -459,8 +459,6 @@ class CounterEntries {
 
                 if ((this.humanUnit === "L") && (this.indexUnit === "m³")) {
                     entry.consumption = entry.consumption * 1000;
-                } else {
-                    console.log("Not implemented");
                 }
 
                 const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
@@ -529,6 +527,9 @@ class CounterManualEntriesTable extends HTMLElement {
           width: 100%;
           height: 200px;
         }
+        td, th {
+            text-align: center;
+        }
       </style>
 
       <div style="display: block;" id="chart-container">
@@ -539,8 +540,9 @@ class CounterManualEntriesTable extends HTMLElement {
         <thead>
           <tr>
             <th>Date</th>
-            <th>Index</th>
-            <th colspan="2">Consommation</th>
+            <th>Index (<span id="index-unit"></span>)</th>
+            <th>Conso</th>
+            <th>Moyenne</th>
             <th></th>
           <tr>
         </thead>
@@ -612,6 +614,7 @@ class CounterManualEntriesTable extends HTMLElement {
     }
 
     _render() {
+        this.shadowRoot.getElementById('index-unit').innerText = this.entries.indexUnit;
 
         const tbody = this.shadowRoot.querySelector('tbody');
         tbody.innerHTML = '';
@@ -626,7 +629,6 @@ class CounterManualEntriesTable extends HTMLElement {
 
             const tdIndex = document.createElement('td');
             tdIndex.innerText = formatValue(entry.value, {
-                unit: this.entries.indexUnit,
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0});
             tr.appendChild(tdIndex);
@@ -643,7 +645,7 @@ class CounterManualEntriesTable extends HTMLElement {
             const tdMean = document.createElement('td');
             if (entry.meanConsumption !== null) {
                 tdMean.innerText = formatValue(entry.meanConsumption, {
-                    unit: this.entries.humanUnit + '/j',
+                    unit: this.entries.humanUnit + '/jour',
                     minimumFractionDigits: 1,
                     maximumFractionDigits: 1});
             }
@@ -697,10 +699,12 @@ class CounterConnected extends HTMLElement {
         <div slot="footer" class="card-footer text-secondary">
           <div class="row g-0">
             <div class="col" style="text-align: left; height: 32px;">
-              <slot id="view-entries-btn" name="view-entries-btn"></slot>
+              <a href="#" role="button" id="view-entries-btn" class="text-secondary">
+                <ion-icon name="bar-chart-outline" style="font-size: 32px;"></ion-icon>
+              </a>
             </div>
             <div class="col-9" style="text-align: right;">
-                <slot id="connect-btn" name="connect-btn"></slot>
+              <a href="#" role="button" id="connect-btn" class="btn btn-outline-secondary">Connecter</a>
             </slot>
             </div>
           </div>
@@ -735,7 +739,7 @@ class CounterConnected extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["title", "connected"];
+        return ["title", "connected", "connect-url", "view-entries-url"];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -743,6 +747,10 @@ class CounterConnected extends HTMLElement {
             this.trendCard.setAttribute(name, newValue);
         } else if (name === "connected") {
             this._render();
+        } else if (name === "connect-url") {
+            this.shadowRoot.getElementById("connect-btn").setAttribute("href", newValue);
+        } else if (name === "view-entries-url") {
+            this.shadowRoot.getElementById("view-entries-btn").setAttribute("href", newValue);
         }
     }
 
@@ -752,7 +760,7 @@ class CounterConnected extends HTMLElement {
         const noDataPlaceholder = this.shadowRoot.getElementById('no-data-placeholder');
 
         if (!this.hasAttribute("connected")) {
-            connect.style.display = 'block';
+            connect.style.display = 'initial';
             noDataPlaceholder.innerText = `Compteur non connecté à l’application.`;
         } else {
             connect.style.display = 'none';
@@ -760,7 +768,7 @@ class CounterConnected extends HTMLElement {
         }
 
         if (this.entries) {
-            viewEntries.style.display = 'block';
+            viewEntries.style.display = 'initial';
         } else {
             viewEntries.style.display = 'none';
         }
