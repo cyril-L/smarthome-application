@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function counterEntriesFromDailyConsumption(data) {
-    console.log(data);
     data.sort((a, b) => (a.date > b.date) ? 1 : -1)
     for (let i = 0; i < data.length; i++) {
         data[i].value /= 1000;
@@ -37,6 +36,5 @@ function counterEntriesFromDailyConsumption(data) {
             data[i] = null;
         }
     }
-    console.log(data.filter(x => x != null));
     return data.filter(x => x != null);
 }

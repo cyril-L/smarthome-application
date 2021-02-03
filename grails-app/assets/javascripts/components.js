@@ -482,6 +482,13 @@ class CounterEntries {
     add(entry) {
         this._entries.push(entry);
         this._computeEntries();
+        if (this.recordUrl) {
+            let url = `${this.recordUrl}&date=${formatIsoDate(entry.date)}&index=${entry.value}`;
+            let req = new XMLHttpRequest();
+            req.onload = () => { console.log("Saved entry") };
+            req.open("get", url, true);
+            req.send();
+        }
         this.observers.notifyAll(this);
     }
 
@@ -491,6 +498,13 @@ class CounterEntries {
             this._entries.splice(index, 1);
         }
         this._computeEntries();
+        if (this.removeUrl) {
+            let url = `${this.removeUrl}&date=${formatIsoDate(entry.date)}`;
+            let req = new XMLHttpRequest();
+            req.onload = () => { console.log("Saved entry") };
+            req.open("get", url, true);
+            req.send();
+        }
         this.observers.notifyAll(this);
     }
 

@@ -33,12 +33,12 @@
 </counter-manual>
 
 <script type="text/javascript">
-    querySelectorLast(document, 'counter-manual').entries = new CounterEntries("m³", "L", [
-        { date: '2020-10-17', value: 25955/1000 },
-        { date: '2020-11-17', value: 26500/1000 },
-        { date: '2020-12-15', value: 27425/1000 },
-        { date: '2021-01-07', value: 28251/1000 }
-    ]);
+    {
+        let entries = new CounterEntries("m³", "L", <%= waterIndices %>);
+        entries.recordUrl = "<%= createLink(controller: "consoHerozh", action: "recordIndex", params:['type': 'Eau']) %>";
+        entries.removeUrl = "<%= createLink(controller: "consoHerozh", action: "removeIndex", params:['type': 'Eau']) %>";
+        querySelectorLast(document, 'counter-manual').entries = entries;
+    }
 </script>
 
 <counter-manual class="draggable" title="Gaz">
@@ -47,7 +47,12 @@
 </counter-manual>
 
 <script type="text/javascript">
-    querySelectorLast(document, 'counter-manual').entries = new CounterEntries("m³", "L", []);
+    {
+        let entries = new CounterEntries("m³", "m³", <%= gasIndices %>);
+        entries.recordUrl = "<%= createLink(controller: "consoHerozh", action: "recordIndex", params:['type': 'Gaz']) %>";
+        entries.removeUrl = "<%= createLink(controller: "consoHerozh", action: "removeIndex", params:['type': 'Gaz']) %>";
+        querySelectorLast(document, 'counter-manual').entries = entries;
+    }
 </script>
 
 <div class="card draggable">
