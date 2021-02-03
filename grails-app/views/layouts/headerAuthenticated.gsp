@@ -6,7 +6,7 @@
       <div class="aui-header-primary">
       	 
       	 <ul class="aui-nav">
-			<li><g:link controller="dataChallenge" action="dashboard" class="aui-button aui-button-primary">Tableau de bord</g:link></li>
+			<li><g:link controller="consoHerozh" action="dashboard" class="aui-button aui-button-primary">Tableau de bord</g:link></li>
 			<li><g:link controller="dataChallenge" action="personalData" class="aui-button aui-button-primary">Mes consentements</g:link></li>
       	 </ul>
       	 

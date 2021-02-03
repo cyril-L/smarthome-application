@@ -6,7 +6,7 @@ class UrlMappings {
 				// apply constraints here
 			}
 		}
-		"/"(controller: 'dataChallenge', action: 'dashboard')
+		"/"(controller: 'consoHerozh', action: 'dashboard')
 		"500"(view:'/error')
 		"404"(view:'/error')
 
