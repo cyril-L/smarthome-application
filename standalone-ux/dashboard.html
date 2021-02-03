@@ -26,7 +26,7 @@
     <script src="../grails-app/assets/javascripts/consoherozh.js"></script>
   </head>
 
-  <body>
+  <body style="background: #f4f5f7">
 
 <div class="container">
 
@@ -289,6 +289,22 @@
     { date: '2020-12-15', value: 44.2 + 44.1}
   ]);
 </script>
+
+  <div class="draggable">
+  <card-energy-trend title="Électricité">
+    <ion-icon slot="icon" name="flash-outline"></ion-icon>
+    <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>
+  </card-energy-trend>
+    <p class="text-muted">Conso moyenne à 0</p>
+  <script type="text/javascript">
+    querySelectorLast(document, 'card-energy-trend').entries = new CounterEntries("kWh", "kWh", [
+      { date: '2021-02-03', value: 1234561 },
+      { date: '2021-02-04', value: 1234562 },
+      { date: '2021-02-05', value: 1234562 }
+    ]);
+  </script>
+  </div>
+
 </div>
 
 </div>

@@ -7,8 +7,8 @@ class CardEnergyTrend extends HTMLElement {
         return cachedTemplates.makeOrGet(this, `
       ${bootstrapStyleTag}
       <style>
-      .cart-header {
-        text-align: center;
+      .card-header, .card-footer {
+        background-color: rgba(0,0,0,.02);
       }
       .card-body h5 {
         text-align: center;
@@ -131,7 +131,7 @@ class CardEnergyTrend extends HTMLElement {
         let trendPercent = null;
 
         for (const entry of latestEntries) {
-            if (entry.meanConsumption) {
+            if (entry.meanConsumption !== null) {
                 if (latestConsumption == null) {
                     latestConsumption = entry.meanConsumption;
                 } else {
@@ -186,7 +186,7 @@ class CardEnergyTrend extends HTMLElement {
             table.style.display = 'table';
             noDataPlaceHolder.style.display = 'none';
             for (const entry of latestEntries) {
-                if (!entry.meanConsumption) {
+                if (entry.meanConsumption === null) {
                     break;
                 }
                 const tr = document.createElement('tr');

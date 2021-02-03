@@ -32,7 +32,7 @@
     <asset:javascript src="consoherozh.js"/>
     <g:layoutHead/>
 </head>
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column h-100" style="background: #f4f5f7;">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
@@ -74,7 +74,7 @@
     <div class="container">
     <div class="row">
         <div class="col-6 col-md">
-            <h5>Contact :</h5>
+            <h5>Contact</h5>
             <ul class="list-unstyled text-small">
                 <li><a href="mailto:datachallenge@consometers.org" class="link-secondary">datachallenge@consometers.org</a></li>
                 <li><a href="https://www.facebook.com/groups/422285815424568" class="link-secondary">Groupe Facebook</a></li>
