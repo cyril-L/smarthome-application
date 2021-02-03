@@ -131,11 +131,11 @@ class CardEnergyTrend extends HTMLElement {
         let trendPercent = null;
 
         for (const entry of latestEntries) {
-            if (entry.consumption) {
+            if (entry.meanConsumption) {
                 if (latestConsumption == null) {
-                    latestConsumption = entry.consumption;
+                    latestConsumption = entry.meanConsumption;
                 } else {
-                    trendPercent = 100.0 * (latestConsumption - entry.consumption) / entry.consumption;
+                    trendPercent = 100.0 * (latestConsumption - entry.meanConsumption) / entry.meanConsumption;
                     break;
                 }
             }
@@ -204,7 +204,7 @@ class CardEnergyTrend extends HTMLElement {
 
                 const value_td = document.createElement('td');
                 value_td.style.textAlign = 'right';
-                if (entry.consumption != null) {
+                if (entry.meanConsumption != null) {
                     value_td.innerText = formatValue(entry.meanConsumption, {
                         unit: this.entries.humanUnit + '/j',
                         minimumFractionDigits: 1,
