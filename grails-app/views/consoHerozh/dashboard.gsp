@@ -3,7 +3,7 @@
     <meta name='layout' content='consoherozh-app' />
 </head>
 <body>
-<h1 class="mb-4 mt-2">Tableau de bord</h1>
+<h1 class="mb-4 mt-4">Tableau de bord</h1>
 
 <div class="dashboard">
 

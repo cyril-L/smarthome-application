@@ -23,7 +23,6 @@
     <script src="https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js"></script>
 
 
-    <asset:stylesheet src="application.css"/>
     <asset:stylesheet src="consoherozh.css"/>
 
     <asset:javascript src="consoherozh.js"/>
@@ -33,21 +32,83 @@
     <asset:javascript src="consoherozh.js"/>
     <g:layoutHead/>
 </head>
-<body style="background: white;">
+<body class="d-flex flex-column h-100">
 
-<g:include view="/layouts/headerAuthenticated.gsp"/>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">ConsoHerozh</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <g:link controller="consoHerozh" action="dashboard" class="nav-link active" aria-current="page" href="#">Tableau de bord</g:link>
+                </li>
+                <li class="nav-item">
+                    <g:link controller="dataChallenge" action="personalData" class="nav-link">Mes consentements</g:link>
+                </li>
+            </ul>
+            <div class="d-flex nav-item dropdown navbar-nav">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <sec:username/>
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <sec:ifSwitched>
+                        <li><g:link action="exitSwitchUser" controller="user" class="dropdown-item">Revenir à votre session</g:link></li>
+                    </sec:ifSwitched>
+                    <li><g:link controller="logout" class="dropdown-item">Déconnexion</g:link></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
 
-<section id="content" role="main" <%= app.stateInsertAttr()  %>>
+<main class="flex-shrink-0">
     <div class="container">
         <g:layoutBody/>
     </div>
-</section>
+</main>
 
-<div id="ajaxDialog"></div>
-
-<g:include view="/layouts/footer.gsp"/>
-
-<asset:deferredScripts/>
-
+<footer class="footer mt-auto py-3" style="background: white; border-top: 1px solid rgb(223, 225, 230);">
+    <div class="container">
+    <div class="row">
+        <div class="col-6 col-md">
+            <h5>Contact :</h5>
+            <ul class="list-unstyled text-small">
+                <li><a href="mailto:datachallenge@consometers.org" class="link-secondary">datachallenge@consometers.org</a></li>
+                <li><a href="https://www.facebook.com/groups/422285815424568" class="link-secondary">Groupe Facebook</a></li>
+                <li><g:link controller="public" action="legal" class="link-secondary">Mentions Légales</g:link></li>
+                <li><g:link controller="public" action="privacy" class="link-secondary">Données personnelles</g:link></li>
+            </ul>
+        </div>
+        <div class="col-6 col-md">
+            <h5>Proposé par</h5>
+            <div class="logo-block">
+                <a href="https://www.aloen.fr/">
+                    <asset:image src="aloen-logo.png" width="80"/>
+                </a>
+            </div>
+            <div class="logo-block">
+                <a href="https://www.consometers.org/">
+                    <asset:image src="consometers-logo.png" width="140"/>
+                </a>
+            </div>
+        </div>
+        <div class="col-6 col-md">
+            <h5>Avec le soutien de</h5>
+            <div class="logo-block">
+                <a href="https://www.bretagne.bzh/">
+                    <asset:image src="bretagne-logo.svg" alt="Empower" width="70"/>
+                </a>
+            </div>
+            <div class="logo-block">
+                <a href="https://www.interregeurope.eu/empower/">
+                    <asset:image src="empower-logo.png" alt="Empower" width="140"/>
+                </a>
+            </div>
+        </div>
+    </div></div>
+</footer>
 </body>
 </html>

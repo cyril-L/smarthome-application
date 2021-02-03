@@ -23,3 +23,10 @@
 .dashboard {
     margin-bottom: 50px;
 }
+
+footer .logo-block {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 5px;
+    height: 100%;
+}
