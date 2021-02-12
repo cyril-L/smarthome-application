@@ -13,6 +13,12 @@
 
 			<h3 class="separator">1) Visualiser ma conso</h3>
 
+			<g:if test='${flash.message}'>
+				<div class="aui-message aui-message-error">
+					<p>${flash.message}</p>
+				</div>
+			</g:if>
+
 			<form action="${postUrl}" method="post" id="d" class="aui login ${ mobileAgent ? 'top-label' : '' }" autocomplete='off'>
 				<fieldset>
 					<div class="field-group">
