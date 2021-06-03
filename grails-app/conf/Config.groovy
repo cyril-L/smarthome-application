@@ -109,6 +109,10 @@ environments {
 					'net.sf.ehcache.hibernate',
 					'grails.app.services',
 					'grails.app.controllers'
+			// Getting more logs
+//			root {
+//				info()
+//			}
 		}
 	}
 
