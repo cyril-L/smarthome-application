@@ -202,7 +202,8 @@ class DataConnectService extends AbstractService {
 				// si un appel a déjà été fait, il correspond à 23h30 du jour concerné
 				// donc on doit récupéré les données du jour suivant
 				start = new Date(notificationAccount.jsonConfig.last_consumption_load_curve as Long)
-				start = (start + 1.day).clearTime()
+				// FIXME -3h for UTC to CET issues, was making load curve to load every other day
+				start = (start - 3.hours + 1.day).clearTime()
 
 				// un appel ne peut porter que sur 7 jours
 				if ((end - start).days > 7) {
