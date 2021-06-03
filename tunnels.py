@@ -25,6 +25,7 @@ if args.postgres:
 
 if args.rabbitmq:
     tunnels.append(["-L", "5672:127.0.0.1:5672"])
+    tunnels.append(["-L", "15672:127.0.0.1:15672"])
 
 if args.app:
     tunnels.append(["-R", "8000:127.0.0.1:8000"])
