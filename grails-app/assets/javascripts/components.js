@@ -710,16 +710,18 @@ class CounterConnected extends HTMLElement {
         <div slot="icon"><slot name="icon"></slot></div>
         <div slot="handle"><slot name="handle"></slot></div>
         <p slot="no-data-placeholder" id="no-data-placeholder"></p>
-        <div slot="footer" class="card-footer text-secondary">
-          <div class="row g-0">
-            <div class="col" style="text-align: left; height: 32px;">
-              <a href="#" role="button" id="view-entries-btn" class="text-secondary">
-                <ion-icon name="bar-chart-outline" style="font-size: 32px;"></ion-icon>
-              </a>
-            </div>
-            <div class="col-9" style="text-align: right;">
-              <a href="#" role="button" id="connect-btn" class="btn btn-outline-secondary">Connecter</a>
-            </slot>
+        <div slot="footer">
+          <div class="card-body alert-warning" id="alert-warning"></div>
+          <div class="card-footer text-secondary">
+            <div class="row g-0">
+              <div class="col" style="text-align: left; height: 32px;">
+                <a href="#" role="button" id="view-entries-btn" class="text-secondary">
+                  <ion-icon name="bar-chart-outline" style="font-size: 32px;"></ion-icon>
+                </a>
+              </div>
+              <div class="col-9" style="text-align: right;">
+                <a href="#" role="button" id="connect-btn" class="btn btn-outline-secondary"></a>
+              </div>
             </div>
           </div>
         </div>
@@ -753,13 +755,13 @@ class CounterConnected extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ["title", "connected", "connect-url", "view-entries-url"];
+        return ["title", "connected", "expired", "connect-url", "view-entries-url"];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
         if (name === "title") {
             this.trendCard.setAttribute(name, newValue);
-        } else if (name === "connected") {
+        } else if (name === "connected" || name === "expired") {
             this._render();
         } else if (name === "connect-url") {
             this.shadowRoot.getElementById("connect-btn").setAttribute("href", newValue);
@@ -772,13 +774,24 @@ class CounterConnected extends HTMLElement {
         const viewEntries = this.shadowRoot.getElementById('view-entries-btn');
         const connect = this.shadowRoot.getElementById('connect-btn');
         const noDataPlaceholder = this.shadowRoot.getElementById('no-data-placeholder');
+        const alertWarning = this.shadowRoot.getElementById('alert-warning');
 
         if (!this.hasAttribute("connected")) {
             connect.style.display = 'initial';
+            connect.innerText = 'Connecter';
             noDataPlaceholder.innerText = `Compteur non connecté à l’application.`;
         } else {
             connect.style.display = 'none';
             noDataPlaceholder.innerText = `Données en cours de récupération…`;
+        }
+
+        if (this.hasAttribute("expired")) {
+            connect.style.display = 'initial';
+            connect.innerText = 'Reconnecter';
+            alertWarning.innerText = `La connexion avec le compteur a expiré.`;
+            alertWarning.style.display = 'block';
+        } else {
+            alertWarning.style.display = 'none';
         }
 
         if (this.entries) {

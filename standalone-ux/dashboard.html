@@ -98,6 +98,27 @@
   </div>
 
   <div class="draggable">
+    <counter-connected title="Linky" connect-url="/connect" connected expired>
+      <ion-icon slot="icon" name="flash-outline"></ion-icon>
+      <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>
+    </counter-connected>
+    <p class="text-muted">Refresh token non sans data valide.</p>
+  </div>
+
+  <div class="draggable">
+    <counter-connected title="Linky" connect-url="/connect" connected expired>
+      <ion-icon slot="icon" name="flash-outline"></ion-icon>
+      <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>
+    </counter-connected>
+    <p class="text-muted">Refresh token non valide avec data.</p>
+    <script type="text/javascript">
+      querySelectorLast(document, 'counter-connected').entries = new CounterEntries("kWh", "kWh", counterEntriesFromDailyConsumption(
+              [{"date":"2021-01-08","value":58324.0},{"date":"2021-01-09","value":56754.0},{"date":"2021-01-10","value":64822.0},{"date":"2021-01-11","value":70420.0},{"date":"2021-01-12","value":40834.0},{"date":"2021-01-13","value":39217.0},{"date":"2021-01-14","value":26779.0},{"date":"2021-01-15","value":31408.0},{"date":"2021-01-16","value":42257.0},{"date":"2021-01-17","value":40314.0},{"date":"2021-01-18","value":52493.0},{"date":"2021-01-19","value":39620.0},{"date":"2021-01-20","value":31853.0},{"date":"2021-01-21","value":40371.0},{"date":"2021-01-22","value":33852.0},{"date":"2021-01-23","value":37198.0},{"date":"2021-01-24","value":53795.0},{"date":"2021-01-25","value":41144.0},{"date":"2021-01-26","value":64623.0},{"date":"2021-01-27","value":48033.0},{"date":"2021-01-28","value":29545.0}]
+      ));
+    </script>
+  </div>
+
+  <div class="draggable">
     <counter-connected title="Linky" connected>
       <ion-icon slot="icon" name="flash-outline"></ion-icon>
       <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>

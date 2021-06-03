@@ -5,7 +5,7 @@
 <body>
 <h1 class="mb-4 mt-4">Tableau de bord</h1>
 
-<div class="dashboard">
+<div class="dashboard" style="position: relative; width: 1000px">
 
 <counter-connected
   class="draggable"
@@ -13,7 +13,8 @@
   connect-url="${createLink(controller: "dataChallenge", action: "personalData")}"
   <g:if test="${linky}">
       connected
-      view-entries-url="${createLink(controller: "device", action: "deviceChart", params:['device.id': linky.id])}"
+      view-entries-url="${createLink(controller: "device", action: "deviceChart", params:['device.id': linky.device.id])}"
+      <g:if test="${!linky.isConnected()}">expired</g:if>
   </g:if>>
     <ion-icon slot="icon" name="flash-outline"></ion-icon>
     <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>

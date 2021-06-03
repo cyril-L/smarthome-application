@@ -4,6 +4,9 @@ import grails.transaction.Transactional
 import smarthome.automation.Device
 import smarthome.automation.DeviceType
 import smarthome.automation.DeviceValueDay
+import smarthome.automation.NotificationAccount
+import smarthome.automation.NotificationAccountSender
+import smarthome.automation.deviceType.Linky
 import smarthome.core.Widget
 import smarthome.core.WidgetService
 import smarthome.core.WidgetUser
@@ -52,6 +55,11 @@ class DataChallengeService {
             eq 'user', user
             eq 'deviceType', linkyDevice
         }
-        return device
+        if (device) {
+            Linky linky = device.newDeviceImpl()
+            return linky
+        } else {
+            return null
+        }
     }
 }

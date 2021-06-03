@@ -77,6 +77,7 @@ class DataConnectService extends AbstractService {
 		notificationAccount.jsonConfig.refresh_token = result.refresh_token
 		notificationAccount.jsonConfig.last_token = (new Date()).time
 		notificationAccount.jsonConfig.usage_point_id = usage_point_id
+		notificationAccount.jsonConfig.expired = false
 		notificationAccount.configFromJson()
 		notificationAccountService.save(notificationAccount)
 
@@ -121,7 +122,7 @@ class DataConnectService extends AbstractService {
 	 * @param notificationAccount
 	 * @throws SmartHomeException
 	 */
-	@Transactional(readOnly = false, rollbackFor = [SmartHomeException])
+	@Transactional(readOnly = false)
 	JSONElement refresh_token(NotificationAccount notificationAccount) throws SmartHomeException {
 		notificationAccount.configToJson()
 
@@ -131,16 +132,23 @@ class DataConnectService extends AbstractService {
 
 
 		log.info("refresh_token notification ${notificationAccount.id} before : ${notificationAccount.jsonConfig.refresh_token}")
-		JSONElement result = dataConnectApi.refresh_token(notificationAccount.jsonConfig.refresh_token)
-		log.info("refresh_token notification ${notificationAccount.id} after : ${result.refresh_token}")
-
-		notificationAccount.jsonConfig.access_token = result.access_token
-		notificationAccount.jsonConfig.refresh_token = result.refresh_token
-		notificationAccount.jsonConfig.last_token = (new Date()).time
-		notificationAccount.configFromJson()
-		notificationAccountService.save(notificationAccount)
-
-		return result
+		try {
+			JSONElement result = dataConnectApi.refresh_token(notificationAccount.jsonConfig.refresh_token)
+			log.info("refresh_token notification ${notificationAccount.id} after : ${result.refresh_token}")
+			notificationAccount.jsonConfig.access_token = result.access_token
+			notificationAccount.jsonConfig.refresh_token = result.refresh_token
+			notificationAccount.jsonConfig.last_token = (new Date()).time
+			notificationAccount.jsonConfig.expired = false
+			return result
+		} catch (SmartHomeException e) {
+			if (e.message.contains("HTTP request error [401]")) {
+				notificationAccount.jsonConfig.expired = true
+			}
+			throw e
+		} finally {
+			notificationAccount.configFromJson()
+			notificationAccountService.save(notificationAccount)
+		}
 	}
 
 

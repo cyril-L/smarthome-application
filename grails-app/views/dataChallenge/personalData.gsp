@@ -7,7 +7,7 @@
 
 <g:applyLayout name="applicationContent">
 
-	<g:if test="${ linky }">
+	<g:if test="${ linky && linky.isConnected() }">
 
 		<h3>Vous avez autorisé le transfert de vos données Enedis</h3>
 

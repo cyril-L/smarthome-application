@@ -5,8 +5,12 @@ import grails.plugin.springsecurity.annotation.Secured
 import smarthome.api.ConsoHerozhService
 import smarthome.automation.Device
 import smarthome.automation.DeviceValueDay
+import smarthome.automation.NotificationAccount
+import smarthome.automation.NotificationAccountSender
+import smarthome.automation.deviceType.Linky
 import smarthome.core.AbstractController
 import smarthome.datachallenge.DataChallengeService
+import smarthome.security.User
 
 import java.text.SimpleDateFormat
 
@@ -18,15 +22,13 @@ class ConsoHerozhController extends AbstractController {
 
     def dashboard() {
         def user = authenticatedUser
-        Device linky = dataChallengeService.getLinky(user)
-//        if (!linky) {
-//            return redirect(controller: 'dataChallenge', action: 'personalData')
-//        }
+        Linky linky = dataChallengeService.getLinky(user)
+
         def isoDateFormat = new SimpleDateFormat("yyyy-MM-dd")
         def linkyDays
         if (linky) {
             linkyDays = DeviceValueDay.createCriteria().list {
-                eq 'device', linky
+                eq 'device', linky.device
                 // between 'dateValue', dateDebut, dateFin
                 eq "name", "basesum"
                 order 'dateValue'

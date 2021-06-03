@@ -2,6 +2,8 @@ package smarthome.datachallenge
 
 import grails.plugin.springsecurity.annotation.Secured
 import smarthome.automation.Device
+import smarthome.automation.NotificationAccount
+import smarthome.automation.deviceType.Linky
 
 @Secured("isAuthenticated()")
 class DataChallengeController {
@@ -13,19 +15,19 @@ class DataChallengeController {
 
     def messageWidget() {
         def user = authenticatedUser
-        Device linky = dataChallengeService.getLinky(user)
+        Linky linky = dataChallengeService.getLinky(user)
         [linky: linky]
     }
 
     def personalData() {
         def user = authenticatedUser
-        Device linky = dataChallengeService.getLinky(user)
+        Linky linky = dataChallengeService.getLinky(user)
         [linky: linky]
     }
 
     def dashboard() {
         def user = authenticatedUser
-        Device linky = dataChallengeService.getLinky(user)
+        Linky linky = dataChallengeService.getLinky(user)
         if (!linky) {
             return redirect(controller: 'dataChallenge', action: 'personalData')
         }

@@ -1,6 +1,9 @@
 package smarthome.automation.deviceType
 
 import groovy.time.TimeCategory
+import org.codehaus.groovy.grails.commons.GrailsApplication
+import smarthome.automation.NotificationAccount
+import smarthome.automation.NotificationAccountSender
 
 import java.util.Date
 import java.util.List
@@ -273,5 +276,21 @@ class Linky extends AbstractDeviceType {
 					metaNames: ['hchp', 'hchc', 'base']]))
 
 		return values
+	}
+
+	boolean isConnected() {
+		// Assumes one Linky per user for now
+		GrailsApplication grailsApplication = grails.util.Holders.grailsApplication
+		NotificationAccountSender accountSender = NotificationAccountSender.findByLibelle(grailsApplication.config.enedis.appName)
+		NotificationAccount account = NotificationAccount.createCriteria().get {
+			eq 'user', device.user
+			eq 'notificationAccountSender', accountSender
+		}
+		if (!account) {
+			return false
+		} else {
+			account.configToJson()
+			return !account.jsonConfig.expired
+		}
 	}
 }
