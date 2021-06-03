@@ -41,6 +41,11 @@ class ConsoHerozhController extends AbstractController {
             linkyDays = []
         }
 
+        def electricityIndices = consoHerozhService.getIndices(user, "Électricité")
+        electricityIndices = electricityIndices.collect { [
+                date: isoDateFormat.format(it.dateValue),
+                value: it.value
+        ] }
         def waterIndices = consoHerozhService.getIndices(user, "Eau")
         waterIndices = waterIndices.collect { [
                 date: isoDateFormat.format(it.dateValue),
@@ -53,6 +58,7 @@ class ConsoHerozhController extends AbstractController {
         ] }
         render(view: 'dashboard', model: [
                 linkyDays: linkyDays as JSON,
+                electricityIndices: electricityIndices as JSON,
                 waterIndices: waterIndices as JSON,
                 gasIndices: gasIndices as JSON,
                 linky: linky

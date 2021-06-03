@@ -28,6 +28,22 @@
 </script>
 </g:if>
 
+<g:if test="${!linky || !linky.isConnected()}">
+<counter-manual class="draggable" title="Élec manuel">
+    <ion-icon slot="icon" name="flash-outline"></ion-icon>
+    <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>
+</counter-manual>
+</g:if>
+
+<script type="text/javascript">
+    {
+        let entries = new CounterEntries("kWh", "L", <%= electricityIndices %>);
+        entries.recordUrl = "<%= createLink(controller: "consoHerozh", action: "recordIndex", params:['type': 'Électricité']) %>";
+        entries.removeUrl = "<%= createLink(controller: "consoHerozh", action: "removeIndex", params:['type': 'Électricité']) %>";
+        querySelectorLast(document, 'counter-manual').entries = entries;
+    }
+</script>
+
 <counter-manual class="draggable" title="Eau">
     <ion-icon slot="icon" name="water-outline"></ion-icon>
     <ion-icon slot="handle" name="reorder-three" class="handle"></ion-icon>
